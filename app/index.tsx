@@ -4,22 +4,48 @@ import {
   Text,
   StyleSheet,
   Image,
-  TextInput,
-  Pressable,
-  TouchableOpacity,
+  Alert,
 } from "react-native";
+
+import PrimaryButton from "../components/primeryButten";
+
 import { LinearGradient } from "expo-linear-gradient";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Robot from "../assets/images/Robot.png";
-import Google from "../assets/images/Google.png";
-import Apple from "../assets/images/Apple.png";
-import Microsoft from "../assets/images/Microsoft-removebg-preview.png";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Img from "../assets/images/images";
+import OauthButton from "@/components/OauthButton";
+import FormInput from "@/components/FormInput";
+import PasswordInput from "@/components/FormPasswordInput";
 
 const Index = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Email and Password are required.");
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format.");
+      return false;
+    }
+
+    setError("");
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (validateForm()) {
+      Alert.alert("Success", "Form is valid!");
+      // You can add actual sign-in logic here
+    }
+  };
 
   return (
     <LinearGradient
@@ -33,40 +59,22 @@ const Index = () => {
           <Text style={styles.title}>Sing in</Text>
           <Text style={styles.secondaryTitle}>Access to your account</Text>
         </View>
-        <Image source={Robot} style={{ width: 120, height: 120 }} />
+        <Image source={Img.Robot} style={{ width: 120, height: 120 }} />
       </View>
       <View>
-      <View style={styles.inputWrapper}>
-        <FontAwesome6 name="user" size={20} color="#8a8a8a" style={styles.icon} />
-        <TextInput
+        <FormInput
           placeholder="Email"
-          placeholderTextColor="#8a8a8a"
-          style={styles.input}
+          onChange={(e) => setEmail(e.nativeEvent.text)}
+          icon={<FontAwesome6 name="user" size={20} color="#8a8a8a" />}
         />
-      </View>
-
-      {/* Password Field */}
-      <View style={styles.inputWrapper}>
-      <MaterialIcons name="lock" size={22} color="#8a8a8a" style={styles.icon} />
-
-      <TextInput
-        placeholder="Password"
-        placeholderTextColor="#8a8a8a"
-        secureTextEntry={!isPasswordVisible}
-        style={styles.input}
-      />
-
-      <TouchableOpacity onPress={() => setIsPasswordVisible(prev => !prev)}>
-        <AntDesign
-          name={isPasswordVisible ? 'eye' : 'eyeo'}
-          size={22}
-          color="#8a8a8a"
+        <PasswordInput
+          placeholder="Password"
+          onChange={(e) => setPassword(e.nativeEvent.text)}
+          leftIcon={<MaterialIcons name="lock" size={22} color="#8a8a8a" />}
+          visibleIcon={<AntDesign name="eye" size={22} color="#8a8a8a" />}
+          hiddenIcon={<AntDesign name="eyeo" size={22} color="#8a8a8a" />}
         />
-      </TouchableOpacity>
-    </View>
-        <Pressable style={styles.submitBtn}>
-          <Text style={{ color: "white", fontSize: 16 }}>Sing in</Text>
-        </Pressable>
+        <PrimaryButton title="Sign in"  handleSubmit={handleSubmit} />
       </View>
       <View style={{ marginTop: 20 }}>
         <Text style={{ ...styles.secondaryTitle, fontSize: 12 }}>
@@ -74,18 +82,9 @@ const Index = () => {
         </Text>
       </View>
       <View>
-        <Pressable style={styles.outhContaner}>
-          <Image source={Apple} style={styles.outhImage} />
-          <Text style={styles.outhText}>Apple</Text>
-        </Pressable>
-        <Pressable style={styles.outhContaner}>
-          <Image source={Google} style={styles.outhImage} />
-          <Text style={styles.outhText}>Google</Text>
-        </Pressable>
-        <Pressable style={styles.outhContaner}>
-          <Image source={Microsoft} style={styles.outhImage} />
-          <Text style={styles.outhText}>Microsoft</Text>
-        </Pressable>
+        <OauthButton image={Img.Apple} name={"Apple"} />
+        <OauthButton image={Img.Google} name={"Google"} />
+        <OauthButton image={Img.Microsoft} name={"Microsoft"} />
       </View>
     </LinearGradient>
   );
@@ -115,58 +114,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "400",
     marginTop: 10,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#000000',
-    borderWidth: 0.4,
-    borderColor: '#1269ff',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-    height: 50,
-    width: 330
-  },
-  icon: {
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    color: 'white',
-    fontSize: 16,
-  },
-  submitBtn: {
-    backgroundColor: "#0b5be5",
-    width: 300,
-    height: 50,
-    borderRadius: 10,
-    paddingLeft: 10,
-    marginTop: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  outhContaner: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "black",
-    width: "80%",
-    marginTop: 10,
-    borderRadius: 30,
-    padding: 15,
-  },
-  outhImage: {
-    width: 30,
-    height: 30,
-  },
-  outhText: {
-    color: "white",
-    width: "80%",
-    fontSize: 16,
-    fontWeight: "bold",
-    paddingRight: 30,
-    textAlign: "center",
   },
 });
 
