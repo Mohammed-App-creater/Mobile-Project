@@ -19,8 +19,32 @@ import Microsoft from "../assets/images/Microsoft-removebg-preview.png";
 
 const Index = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Email and Password are required.");
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format.");
+      return false;
+    }
+
+    setError("");
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (validateForm()) {
+      Alert.alert("Success", "Form is valid!");
+      // You can add actual sign-in logic here
+    }
+  };
   return (
     <LinearGradient
       colors={["#010101", "#16254b"]}
@@ -35,6 +59,7 @@ const Index = () => {
         </View>
         <Image source={Robot} style={{ width: 120, height: 120 }} />
       </View>
+
       <View>
       <View style={styles.inputWrapper}>
         <FontAwesome6 name="user" size={20} color="#8a8a8a" style={styles.icon} />
@@ -42,6 +67,10 @@ const Index = () => {
           placeholder="Email"
           placeholderTextColor="#8a8a8a"
           style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
       </View>
 
@@ -54,6 +83,8 @@ const Index = () => {
         placeholderTextColor="#8a8a8a"
         secureTextEntry={!isPasswordVisible}
         style={styles.input}
+        value={password}
+        onChangeText={setPassword}
       />
 
       <TouchableOpacity onPress={() => setIsPasswordVisible(prev => !prev)}>
@@ -64,8 +95,11 @@ const Index = () => {
         />
       </TouchableOpacity>
     </View>
-        <Pressable style={styles.submitBtn}>
-          <Text style={{ color: "white", fontSize: 16 }}>Sing in</Text>
+      {error ? (
+        <Text style={{ color: "red", marginBottom: 10,  textAlign:"center"}}>{error}</Text>
+      ) : null}
+        <Pressable style={styles.submitBtn} onPress={handleSubmit}>
+          <Text style={{ color: "white", fontSize: 16 }}>Sign in</Text>
         </Pressable>
       </View>
       <View style={{ marginTop: 20 }}>
