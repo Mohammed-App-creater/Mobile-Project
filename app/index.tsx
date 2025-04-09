@@ -61,6 +61,7 @@ const Index = () => {
         </View>
         <Image source={Img.Robot} style={{ width: 120, height: 120 }} />
       </View>
+
       <View>
         <FormInput
           placeholder="Email"
