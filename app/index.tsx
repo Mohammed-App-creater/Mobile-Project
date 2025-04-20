@@ -65,17 +65,17 @@ const Index = () => {
       <View>
         <FormInput
           placeholder="Email"
-          onChange={(e) => setEmail(e.nativeEvent.text)}
+          onChangeText={(text) => setEmail(text)}
           icon={<FontAwesome6 name="user" size={20} color="#8a8a8a" />}
         />
         <PasswordInput
           placeholder="Password"
-          onChange={(e) => setPassword(e.nativeEvent.text)}
+          onChangeText={(text) => setPassword(text)}
           leftIcon={<MaterialIcons name="lock" size={22} color="#8a8a8a" />}
           visibleIcon={<AntDesign name="eye" size={22} color="#8a8a8a" />}
           hiddenIcon={<AntDesign name="eyeo" size={22} color="#8a8a8a" />}
         />
-        <PrimaryButton title="Sign in"  handleSubmit={handleSubmit} />
+        <PrimaryButton title="Sign in" error={error}  handleSubmit={handleSubmit} />
       </View>
       <View style={{ marginTop: 20 }}>
         <Text style={{ ...styles.secondaryTitle, fontSize: 12 }}>

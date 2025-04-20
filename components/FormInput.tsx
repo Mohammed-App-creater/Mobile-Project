@@ -3,9 +3,10 @@ import type { ReactNode } from 'react';
 
 interface FormInputProps extends TextInputProps {
   icon: ReactNode;
+  onChangeText: (text: string) => void;
 }
 
-const FormInput: React.FC<FormInputProps> = ({ icon, style, ...rest }) => {
+const FormInput: React.FC<FormInputProps> = ({ icon, style, onChangeText, ...rest }) => {
   return (
     <View style={styles.inputWrapper}>
         <View style={styles.icon}>{icon}</View>
@@ -13,6 +14,7 @@ const FormInput: React.FC<FormInputProps> = ({ icon, style, ...rest }) => {
           placeholder="Email"
           placeholderTextColor="#8a8a8a"
           style={styles.input}
+          onChangeText={onChangeText}
         />
       </View>
   )
