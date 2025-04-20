@@ -12,6 +12,7 @@ interface PasswordInputProps extends TextInputProps {
   leftIcon: ReactNode;
   visibleIcon: ReactNode;
   hiddenIcon: ReactNode;
+  onChangeText: (text: string) => void;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
