@@ -1,37 +1,38 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Alert } from "react-native";
-
 import PrimaryButton from "../components/primeryButten";
 import axios from "axios";
-
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Img from "../assets/images/images";
-import OauthButton from "@/components/OauthButton";
 import FormInput from "@/components/FormInput";
 import PasswordInput from "@/components/FormPasswordInput";
-import {  Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 
-const Index = () => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  
   const router = useRouter();
 
   const validateForm = () => {
-    if (!email || !password) {
-      setError("Email and Password are required.");
+    if (!email || !password || !confirmPassword) {
+      setError("All fields are required.");
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Invalid email format.");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return false;
     }
 
@@ -43,35 +44,27 @@ const Index = () => {
     if (validateForm()) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/user/login",
+          "http://localhost:3000/api/user/register",
           { email, password }
         );
-  
-        if (response.status === 200) {
-          router.replace("/");
+
+        if (response.status === 201) {
+          Alert.alert("Success", "Account created successfully!");
+          router.replace("/signIn");
         } else {
-          Alert.alert("Login failed", "Invalid email or password");
+          Alert.alert("Registration failed", "Please try again.");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        Alert.alert("Error", "Unable to login. Please try again later.");
+        Alert.alert("Error", "Unable to register. Please try again later.");
       }
-  
+
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
       setError("");
     }
   };
-
-  const test = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/user/test");
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-  test();
 
   return (
     <LinearGradient
@@ -82,9 +75,9 @@ const Index = () => {
     >
       <View style={styles.header}>
         <View>
-          <Text style={styles.title}>Sign in</Text>
+          <Text style={styles.title}>Sign Up</Text>
           <Text style={{ ...styles.secondaryTitle, width: "80%" }}>
-            Access to your account
+            Create a new account
           </Text>
         </View>
         <Image source={Img.Robot} style={{ width: 120, height: 120 }} />
@@ -103,29 +96,19 @@ const Index = () => {
           visibleIcon={<AntDesign name="eye" size={22} color="#8a8a8a" />}
           hiddenIcon={<AntDesign name="eyeo" size={22} color="#8a8a8a" />}
         />
+        <PasswordInput
+          placeholder="Confirm Password"
+          onChangeText={(text) => setConfirmPassword(text)}
+          leftIcon={<MaterialIcons name="lock" size={22} color="#8a8a8a" />}
+          visibleIcon={<AntDesign name="eye" size={22} color="#8a8a8a" />}
+          hiddenIcon={<AntDesign name="eyeo" size={22} color="#8a8a8a" />}
+        />
         <PrimaryButton
-          title="Sign in"
+          title="Sign Up"
           error={error}
           handleSubmit={handleSubmit}
         />
       </View>
-      <View style={styles.titleContainer}>
-        <Text style={{ ...styles.secondaryTitle, fontSize: 12 }}>
-          Or Sign In With
-        </Text>
-      </View>
-      <View>
-        <OauthButton image={Img.Apple} name={"Apple"} />
-        <OauthButton image={Img.Google} name={"Google"} />
-        <OauthButton image={Img.Microsoft} name={"Microsoft"} />
-      </View>
-      <Text style={{ color: "gray",marginTop: 15,fontSize:20 }}>
-        if you don't have an Account{" "} 
-        <Link style={{ color: "white",fontWeight:'bold'}} href="/signup">
-          Sign Up
-        </Link>
-      </Text>
-      <Link style={{fontSize:20, color:"red"}} href='/drawer'><Text>drawer</Text></Link>
     </LinearGradient>
   );
 };
@@ -155,15 +138,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "400",
     marginTop: 10,
-    marginBottom: 10,
-  },
-  titleContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    marginBottom: 40,
   },
 });
 
-export default Index;
+export default SignUp;
