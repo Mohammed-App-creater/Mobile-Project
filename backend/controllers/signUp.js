@@ -8,6 +8,23 @@ const signUp = async (req, res) => {
   if (!email || !name || !password) {
     return res.status(400).json({ message: 'Email, password, and name are required' });
   }
+
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({ message: 'User already exists. Please sign in.' });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    const newUser = new User({
+      email,
+      name,
+      password: hashedPassword
+    });
+
+ 
 };
 
 export default signUp;
