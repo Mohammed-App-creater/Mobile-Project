@@ -8,7 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET ;
 const jwtValidator = (req, res, next) => {
   const authHeader = req.headers.authorization;
   // Check if token exists and follows "Bearer <token>" format
-  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'No token provided or invalid format' });
+  }
+
   const token = authHeader.split(' ')[1];
 
   try {
