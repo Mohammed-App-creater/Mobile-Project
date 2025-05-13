@@ -108,6 +108,40 @@ const Index = () => {
   );
 };
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+    marginTop: 40,
+  },
+  title: {
+    color: "white",
+    fontSize: 32,
+    fontWeight: "bold",
+    marginBottom: -10,
+  },
+  secondaryTitle: {
+    color: "#8a8a8a",
+    fontSize: 16,
+    fontWeight: "400",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  titleContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+});
 
 export default Index;
