@@ -40,7 +40,31 @@ const SignUp = () => {
     return true;
   };
 
- 
+  const handleSubmit = async () => {
+    if (validateForm()) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/user/register",
+          { email, password }
+        );
+
+        if (response.status === 201) {
+          Alert.alert("Success", "Account created successfully!");
+          router.replace("/signIn");
+        } else {
+          Alert.alert("Registration failed", "Please try again.");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        Alert.alert("Error", "Unable to register. Please try again later.");
+      }
+
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setError("");
+    }
+  };
 
   return (
     <LinearGradient
