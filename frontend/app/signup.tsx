@@ -19,7 +19,26 @@ const SignUp = () => {
 
   const router = useRouter();
 
-  
+  const validateForm = () => {
+    if (!email || !password || !confirmPassword) {
+      setError("All fields are required.");
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format.");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return false;
+    }
+
+    setError("");
+    return true;
+  };
 
  
 
