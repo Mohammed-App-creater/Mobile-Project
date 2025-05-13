@@ -24,7 +24,16 @@ const signUp = async (req, res) => {
       password: hashedPassword
     });
 
- 
+    await newUser.save();
+
+    const token = generateToken(newUser);
+    const payload = { id: newUser._id, email: newUser.email };
+
+    res.status(201).json({ token, user: payload });
+  } catch (error) {
+    console.error('SignUp Error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 export default signUp;
