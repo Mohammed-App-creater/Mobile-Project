@@ -19,52 +19,9 @@ const SignUp = () => {
 
   const router = useRouter();
 
-  const validateForm = () => {
-    if (!email || !password || !confirmPassword) {
-      setError("All fields are required.");
-      return false;
-    }
+  
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Invalid email format.");
-      return false;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return false;
-    }
-
-    setError("");
-    return true;
-  };
-
-  const handleSubmit = async () => {
-    if (validateForm()) {
-      try {
-        const response = await axios.post(
-          "http://localhost:3000/api/user/register",
-          { email, password }
-        );
-
-        if (response.status === 201) {
-          Alert.alert("Success", "Account created successfully!");
-          router.replace("/signIn");
-        } else {
-          Alert.alert("Registration failed", "Please try again.");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        Alert.alert("Error", "Unable to register. Please try again later.");
-      }
-
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setError("");
-    }
-  };
+ 
 
   return (
     <LinearGradient
@@ -113,33 +70,6 @@ const SignUp = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "90%",
-    marginTop: 40,
-  },
-  title: {
-    color: "white",
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: -10,
-  },
-  secondaryTitle: {
-    color: "#8a8a8a",
-    fontSize: 16,
-    fontWeight: "400",
-    marginTop: 10,
-    marginBottom: 40,
-  },
-});
+
 
 export default SignUp;
