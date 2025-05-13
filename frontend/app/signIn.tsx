@@ -39,29 +39,7 @@ const Index = () => {
     return true;
   };
 
-  const handleSubmit = async () => {
-    if (validateForm()) {
-      try {
-        const response = await axios.post(
-          "http://localhost:3000/api/user/login",
-          { email, password }
-        );
-  
-        if (response.status === 200) {
-          router.replace("/");
-        } else {
-          Alert.alert("Login failed", "Invalid email or password");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        Alert.alert("Error", "Unable to login. Please try again later.");
-      }
-  
-      setEmail("");
-      setPassword("");
-      setError("");
-    }
-  };
+ 
 
   const test = async () => {
     try {
@@ -130,40 +108,6 @@ const Index = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "90%",
-    marginTop: 40,
-  },
-  title: {
-    color: "white",
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: -10,
-  },
-  secondaryTitle: {
-    color: "#8a8a8a",
-    fontSize: 16,
-    fontWeight: "400",
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  titleContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-  },
-});
+
 
 export default Index;
