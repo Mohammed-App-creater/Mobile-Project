@@ -39,7 +39,29 @@ const Index = () => {
     return true;
   };
 
- 
+  const handleSubmit = async () => {
+    if (validateForm()) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/user/login",
+          { email, password }
+        );
+  
+        if (response.status === 200) {
+          router.replace("/");
+        } else {
+          Alert.alert("Login failed", "Invalid email or password");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        Alert.alert("Error", "Unable to login. Please try again later.");
+      }
+  
+      setEmail("");
+      setPassword("");
+      setError("");
+    }
+  };
 
   const test = async () => {
     try {
