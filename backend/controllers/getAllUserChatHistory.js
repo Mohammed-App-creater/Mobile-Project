@@ -13,6 +13,7 @@ export const getAllUserChatHistory = async (req, res) => {
 
     res.status(200).json(fullChatData);
   } catch (error) {
-    
+    console.error('Error fetching chat history:', error);
+    res.status(500).json({ error: 'Failed to fetch chat history.' });
   }
 };
