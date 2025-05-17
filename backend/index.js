@@ -16,3 +16,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Routes
+app.get("/", (req, res) => {
+  res.send("ASTU Chatmeat API is running");
+});
+
+app.use('/auth', authRoutes);
+app.use('/chat', chatRoutes); // Assuming you have a chatRoutes file
+
